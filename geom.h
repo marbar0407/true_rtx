@@ -26,10 +26,14 @@ public:
     double operator *(Point a) {
         return (x * a.y - y * a.x);
     }
-    double len() {
+    double len(Point a) {
         return sqrt(x * x + y * y);
     }
 };
+
+double dist(Point a, Point b) {
+    return sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
+}
 
 bool within(Point a, Point b, Point c, Point p) {
     return (((a - b) * (p - b)) * ((p - b) * (c - b)) >= 0 && ((a - b) * (c - b)) * ((a - b) * (p - b)) >= 0);
