@@ -29,12 +29,12 @@ void baza(ofstream &fout, vector<pixel> &output) {
     }
 }
 
-void trugol(vector<pixel> &screen, Point a, Point b, Point c) {
+void trugol(vector<pixel> &screen, Point a, Point b, Point c, pixel pp) {
     for (int i = 0; i < HEIGHT; ++i) {
         for (int j = 0; j < WIDE; ++j) {
             Point p = {(double)i, (double)j};
             if (within(a, b, c, p) && within(a, c, b, p)) {
-                screen[i * WIDE + j] = {0, 0, 0};
+                screen[i * WIDE + j] = pp;
             }
         }
     }
@@ -52,12 +52,37 @@ void grad(vector<pixel> &screen) {
     }
 }
 
+void chugol(vector<pixel> &screen, Point a, Point b, Point c, Point d, pixel pp) {
+    for (int i = 0; i < HEIGHT; ++i) {
+        for (int j = 0; j < WIDE; ++j) {
+            Point p = {(double)i, (double)j};
+            if(within(a, d, c, p) && within(a, b, c, p)) {
+                screen[i * WIDE + j] = pp;
+            }
+        }
+    }
+}
+
+void circus (vector<pixel> &screen, Point o, double r, pixel pp) {
+
+    for (int i = 0; i < HEIGHT; ++i) {
+        for (int j = 0; j < WIDE; ++j) {
+            Point p = {(double)i, (double)j};
+                if (dist(p, o) <= r) {
+                    screen[i * WIDE + j] = pp;
+                }
+        }
+    }
+}
+
 int main() {
     ofstream fout;
     fout.open("image.ppm");
 
     vector<pixel> screen(WIDE * HEIGHT);
     grad(screen);
-    trugol(screen, {1000, 1000}, {1, 5}, {300, 700});
+    chugol(screen, {HEIGHT / 2 - 100, WIDE / 2}, {HEIGHT / 2, WIDE / 2 + 100},
+           {HEIGHT / 2 + 100, WIDE / 2}, {HEIGHT / 2, WIDE / 2 - 100},  {1, 1, 1});
+    circus(screen, {200, 200}, 100, {1, 1, 1});
     baza(fout, screen);
 }
